@@ -11,24 +11,47 @@ setDocDimensions(width, height);
 
 // Store drawings here
 
-const finalLines = []
+const finalLines = [];
 const t = new bt.Turtle();
 
 // Random variables for gear + circle
 
-const xstCircle = bt.randIntInRange(55, 75)
-const xstGear = xstCircle
-const ystCircle = bt.randIntInRange(45, 65)
-const ystGear = ystCircle 
+const xstCircle = bt.randIntInRange(55, 75);
+const xstGear = xstCircle;
+const ystCircle = bt.randIntInRange(45, 65);
+const ystGear = ystCircle;
 
-const cRadius = bt.randIntInRange(15, 25)
-  
-const gIRadius = bt.randIntInRange(30, 40)
-const gORadius = bt.randIntInRange(30, 40)
-const gNumTeeth = bt.randIntInRange(6,16)
+const cRadius = bt.randIntInRange(15, 25);
 
+const gIRadius = bt.randIntInRange(30, 40);
+const gORadius = bt.randIntInRange(30, 40);
+const gNumTeeth = bt.randIntInRange(6, 16);
 
-// Draw the starting circle 
+// Random Variables for flames
+
+const xstFlames = xstCircle - 50;
+const ystFlames = ystCircle + 80;
+const fNumPoints = bt.randIntInRange(3, 10);
+const flameHeight = bt.randIntInRange(60, 70);
+
+// Function to draw the flames
+
+function drawFlames(startX, startY, numPoints, flameHeight) {
+  const flames = [];
+
+  let path = [[startX, startY]];
+
+  for (let i = 0; i < numPoints; i++) {
+    const x = startX + i * (width / numPoints);
+    const y = startY - Math.random() * flameHeight;
+    path.push([x, y]);
+  }
+
+  path.push([startX + width, startY]);
+  flames.push(path);
+
+  return flames;
+}
 
 // Function to draw a circle
 
@@ -40,11 +63,11 @@ function drawCircle(startX, startY, radius) {
 
 // Function to draw a gear
 
-// Function to draw a gear
-
 function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
   const gear = [];
   const step = Math.PI / numTeeth;
+
+  let path = [];
 
   for (let i = 0; i < numTeeth; i++) {
     const angle1 = i * 2 * step;
@@ -55,38 +78,41 @@ function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
     // Point 1: Inner radius
     const x1 = startX + innerRadius * Math.cos(angle1);
     const y1 = startY + innerRadius * Math.sin(angle1);
-    gear.push([x1, y1]);
+    path.push([x1, y1]);
 
     // Point 2: Outer radius, start of flat top
     const x2 = startX + outerRadius * Math.cos(angle2);
     const y2 = startY + outerRadius * Math.sin(angle2);
-    gear.push([x2, y2]);
+    path.push([x2, y2]);
 
     // Point 3: Outer radius, end of flat top
     const x3 = startX + outerRadius * Math.cos(angle3);
     const y3 = startY + outerRadius * Math.sin(angle3);
-    gear.push([x3, y3]);
+    path.push([x3, y3]);
 
     // Point 4: Inner radius
     const x4 = startX + innerRadius * Math.cos(angle4);
     const y4 = startY + innerRadius * Math.sin(angle4);
-    gear.push([x4, y4]);
+    path.push([x4, y4]);
   }
 
-  gear.push(gear[0]); // Close the gear shape
+  path.push(path[0]); // Close the gear shape
+  gear.push(path);
   return gear;
 }
-// Draw the Circle 
 
-drawCircle(xstCircle, ystCircle, cRadius)
+// Draw the Circle 
+drawCircle(xstCircle, ystCircle, cRadius);
+
+// Draw the Flames
+const flamesDrawing = drawFlames(xstFlames, ystFlames, fNumPoints, flameHeight);
+finalLines.push(...flamesDrawing);
 
 // Create and add gear to final lines
-  
 const gearDrawing = drawGear(xstGear, ystGear, gIRadius, gORadius, gNumTeeth);
-finalLines.push(gearDrawing);
+finalLines.push(...gearDrawing);
 
-// Draw the R (I know this code is horrifying) 
-
+// Draw the R (I know this code is horrifying)
 t.jump([90, 10]);
 
 t.setAngle(90);
@@ -101,7 +127,6 @@ t.left(90);
 t.forward(5);
 t.right(90);
 t.forward(1);
-
 
 t.right(180);
 t.up();
@@ -138,6 +163,6 @@ t.right(90);
 t.forward(5);
 t.left(90);
 
-// Draw the finished product 
+// Draw the finished product
 drawLines(t.lines());
 drawLines(finalLines);
