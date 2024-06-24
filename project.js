@@ -40,22 +40,42 @@ function drawCircle(startX, startY, radius) {
 
 // Function to draw a gear
 
+// Function to draw a gear
+
 function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
   const gear = [];
   const step = Math.PI / numTeeth;
 
-  for (let i = 0; i < 2 * numTeeth; i++) {
-    const radius = i % 2 === 0 ? outerRadius : innerRadius;
-    const angle = i * step;
-    const x = startX + radius * Math.cos(angle);
-    const y = startY + radius * Math.sin(angle);
-    gear.push([x, y]);
+  for (let i = 0; i < numTeeth; i++) {
+    const angle1 = i * 2 * step;
+    const angle2 = angle1 + step / 2;
+    const angle3 = angle1 + step;
+    const angle4 = angle1 + 3 * step / 2;
+
+    // Point 1: Inner radius
+    const x1 = startX + innerRadius * Math.cos(angle1);
+    const y1 = startY + innerRadius * Math.sin(angle1);
+    gear.push([x1, y1]);
+
+    // Point 2: Outer radius, start of flat top
+    const x2 = startX + outerRadius * Math.cos(angle2);
+    const y2 = startY + outerRadius * Math.sin(angle2);
+    gear.push([x2, y2]);
+
+    // Point 3: Outer radius, end of flat top
+    const x3 = startX + outerRadius * Math.cos(angle3);
+    const y3 = startY + outerRadius * Math.sin(angle3);
+    gear.push([x3, y3]);
+
+    // Point 4: Inner radius
+    const x4 = startX + innerRadius * Math.cos(angle4);
+    const y4 = startY + innerRadius * Math.sin(angle4);
+    gear.push([x4, y4]);
   }
 
   gear.push(gear[0]); // Close the gear shape
   return gear;
 }
-
 // Draw the Circle 
 
 drawCircle(xstCircle, ystCircle, cRadius)
