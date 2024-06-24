@@ -17,10 +17,16 @@ const t = new bt.Turtle();
 // Random variables for gear + circle
 
 const xstCircle = bt.randIntInRange(55, 75)
-const xstGear = bt.randIntInRange(0, 10)
+const xstGear = xstCircle
 const ystCircle = bt.randIntInRange(45, 65)
-const ystGear = bt.randIntInRange(0, 10)
-const cRadius = bt.randIntInRange(10, 20)
+const ystGear = ystCircle 
+
+const cRadius = bt.randIntInRange(15, 25)
+  
+const gIRadius = bt.randIntInRange(30, 40)
+const gORadius = bt.randIntInRange(30, 40)
+const gNumTeeth = bt.randIntInRange(6,16)
+
 
 // Draw the starting circle 
 
@@ -32,8 +38,32 @@ function drawCircle(startX, startY, radius) {
   t.arc(360, radius); 
 }
 
+// Function to draw a gear
+
+function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
+  const gear = [];
+  const step = Math.PI / numTeeth;
+
+  for (let i = 0; i < 2 * numTeeth; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = i * step;
+    const x = startX + radius * Math.cos(angle);
+    const y = startY + radius * Math.sin(angle);
+    gear.push([x, y]);
+  }
+
+  gear.push(gear[0]); // Close the gear shape
+  return gear;
+}
+
+// Draw the Circle 
+
 drawCircle(xstCircle, ystCircle, cRadius)
 
+// Create and add gear to final lines
+  
+const gearDrawing = drawGear(xstGear, ystGear, gIRadius, gORadius, gNumTeeth);
+finalLines.push(gearDrawing);
 
 // Draw the R (I know this code is horrifying) 
 
