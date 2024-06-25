@@ -1,8 +1,8 @@
-// check out the workshop tab to get started
-// welcome to blot!
-
-// check out this guide to learn how to program in blot
-// https://blot.hackclub.com/editor?guide=start
+/*
+@title: FRC 8089 Logo
+@author: tqbed
+@snapshot: snapshot1.png
+*/
 
 const width = 125;
 const height = 125;
