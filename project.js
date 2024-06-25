@@ -16,9 +16,9 @@ const t = new bt.Turtle();
 
 // Random variables for gear + circle
 
-const xstCircle = bt.randIntInRange(55, 75);
+const xstCircle = bt.randIntInRange(45, 65);
 const xstGear = xstCircle;
-const ystCircle = bt.randIntInRange(45, 65);
+const ystCircle = bt.randIntInRange(55, 75);
 const ystGear = ystCircle;
 
 const cRadius = bt.randIntInRange(15, 25);
@@ -29,28 +29,27 @@ const gNumTeeth = bt.randIntInRange(6, 16);
 
 // Random Variables for flames
 
-const xstFlames = xstCircle - 50;
-const ystFlames = ystCircle + 80;
+const xstFlames = xstCircle - 40;
+const ystFlames = ystCircle + 70;
 const fNumPoints = bt.randIntInRange(3, 10);
 const flameHeight = bt.randIntInRange(60, 70);
 
 // Function to draw the flames
 
+// Function to draw the flames
 function drawFlames(startX, startY, numPoints, flameHeight) {
-  const flames = [];
-
-  let path = [[startX, startY]];
+  const flameWidth = 60; // Fixed width for flames
+  t.jump([startX, startY]);
+  t.down();
 
   for (let i = 0; i < numPoints; i++) {
-    const x = startX + i * (width / numPoints);
+    const x = startX + (i * flameWidth) / numPoints;
     const y = startY - Math.random() * flameHeight;
-    path.push([x, y]);
+    t.goTo([x, y]);
   }
 
-  path.push([startX + width, startY]);
-  flames.push(path);
-
-  return flames;
+  t.goTo([startX + flameWidth, startY]);
+  t.up();
 }
 
 // Function to draw a circle
@@ -105,15 +104,14 @@ function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
 drawCircle(xstCircle, ystCircle, cRadius);
 
 // Draw the Flames
-const flamesDrawing = drawFlames(xstFlames, ystFlames, fNumPoints, flameHeight);
-finalLines.push(...flamesDrawing);
+drawFlames(xstFlames, ystFlames, fNumPoints, flameHeight);
 
 // Create and add gear to final lines
 const gearDrawing = drawGear(xstGear, ystGear, gIRadius, gORadius, gNumTeeth);
 finalLines.push(...gearDrawing);
 
 // Draw the R (I know this code is horrifying)
-t.jump([90, 10]);
+t.jump([90 + (xstCircle - 60), 10 + (ystCircle - 60)]);
 
 t.setAngle(90);
 
@@ -143,12 +141,12 @@ t.forward(12.5);
 t.right(-90);
 t.forward(11);
 
-t.jump([98.25, 26]);
+t.jump([98.25 + (xstCircle - 60), 26 + (ystCircle - 60)]);
 
 t.setAngle(310);
 t.forward(21);
 
-t.jump([90, 10]);
+t.jump([90 + (xstCircle - 60), 10 + (ystCircle - 60)]);
 t.setAngle(180);
 t.forward(5);
 
