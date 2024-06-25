@@ -14,7 +14,7 @@ setDocDimensions(width, height);
 const finalLines = [];
 const t = new bt.Turtle();
 
-// Random variables for gear + circle
+// Random variables for gear + circle, edit for different results!
 
 const xstCircle = bt.randIntInRange(55, 75);
 const xstGear = xstCircle;
@@ -30,7 +30,7 @@ const gNumTeeth = bt.randIntInRange(6, 16);
 // Random Variables for flames
 
 const xscFlames = bt.randInRange(0.8,1); // currently unused, it broke things
-const yscFlames = bt.randInRange(0.7,1);
+const yscFlames = bt.randInRange(0.7,1); // edit for different sizes!
 
 // Function to draw the flames
 
