@@ -16,9 +16,9 @@ const t = new bt.Turtle();
 
 // Random variables for gear + circle
 
-const xstCircle = bt.randIntInRange(45, 65);
+const xstCircle = bt.randIntInRange(55, 75);
 const xstGear = xstCircle;
-const ystCircle = bt.randIntInRange(55, 75);
+const ystCircle = bt.randIntInRange(50, 65);
 const ystGear = ystCircle;
 
 const cRadius = bt.randIntInRange(15, 25);
@@ -29,27 +29,35 @@ const gNumTeeth = bt.randIntInRange(6, 16);
 
 // Random Variables for flames
 
-const xstFlames = xstCircle - 40;
-const ystFlames = ystCircle + 70;
-const fNumPoints = bt.randIntInRange(3, 10);
-const flameHeight = bt.randIntInRange(60, 70);
+const xscFlames = bt.randInRange(0.8,1); // currently unused, it broke things
+const yscFlames = bt.randInRange(0.7,1);
 
 // Function to draw the flames
 
-// Function to draw the flames
-function drawFlames(startX, startY, numPoints, flameHeight) {
-  const flameWidth = 60; // Fixed width for flames
-  t.jump([startX, startY]);
+function drawFlames(xScale, yScale) {
+  t.jump([-50 + xstCircle, 25 + ystCircle]);
   t.down();
 
-  for (let i = 0; i < numPoints; i++) {
-    const x = startX + (i * flameWidth) / numPoints;
-    const y = startY - Math.random() * flameHeight;
-    t.goTo([x, y]);
-  }
+  t.setAngle(280);
+  t.arc(15,130 * yScale);
+  t.jump([-50 + xstCircle, 25 + ystCircle]);
+  t.arc(15,100 * yScale);
 
-  t.goTo([startX + flameWidth, startY]);
-  t.up();
+  t.right(200);
+  t.forward(50 * yScale);
+  t.left(200);
+  t.arc(20,120 * yScale);
+
+  t.right(200);
+  t.forward(50 * yScale);
+  t.left(200);
+  t.arc(15,200 * yScale);
+
+  t.right(200);
+  t.forward(20 * yScale);
+  t.left(200);
+  t.arc(-20,150 * yScale); 
+
 }
 
 // Function to draw a circle
@@ -104,7 +112,7 @@ function drawGear(startX, startY, innerRadius, outerRadius, numTeeth) {
 drawCircle(xstCircle, ystCircle, cRadius);
 
 // Draw the Flames
-drawFlames(xstFlames, ystFlames, fNumPoints, flameHeight);
+drawFlames(xscFlames, yscFlames);
 
 // Create and add gear to final lines
 const gearDrawing = drawGear(xstGear, ystGear, gIRadius, gORadius, gNumTeeth);
